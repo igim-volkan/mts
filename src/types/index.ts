@@ -14,7 +14,27 @@ export interface Lead {
     notes?: string;
     status: LeadStatus;
     emailSentDate?: string; // ISO Date String
+    lossReason?: string;
     createdAt: string; // ISO Date String
+}
+
+export type ActivityType = 'status_change' | 'note_added' | 'email_sent' | 'call_made' | 'created';
+
+export interface LeadActivity {
+    id: string;
+    leadId: string;
+    type: ActivityType;
+    details: string;
+    createdAt: string;
+}
+
+export interface Task {
+    id: string;
+    leadId: string | null;
+    title: string;
+    dueDate: string;
+    isCompleted: boolean;
+    createdAt: string;
 }
 
 export const SECTORS = [

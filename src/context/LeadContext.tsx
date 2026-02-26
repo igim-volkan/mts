@@ -52,6 +52,14 @@ export function LeadProvider({ children }: { children: ReactNode }) {
                 .single();
 
             if (error) throw error;
+
+            // Log creation activity
+            await supabase.from('lead_activities').insert([{
+                leadId: data.id,
+                type: 'created',
+                details: 'Müşteri sisteme eklendi.'
+            }]);
+
             setLeads(prev => [data as Lead, ...prev]);
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : String(err);
@@ -62,6 +70,8 @@ export function LeadProvider({ children }: { children: ReactNode }) {
 
     const updateLead = async (id: string, leadData: Partial<Lead>) => {
         try {
+            const existingLead = leads.find(l => l.id === id);
+
             const { data, error } = await supabase
                 .from('leads')
                 .update(leadData)
@@ -70,6 +80,31 @@ export function LeadProvider({ children }: { children: ReactNode }) {
                 .single();
 
             if (error) throw error;
+
+            if (existingLead) {
+                const activities = [];
+                // Compare status
+                if (leadData.status && leadData.status !== existingLead.status) {
+                    const statusMap: Record<string, string> = {
+                        new: 'Yeni', contacted: 'İletişimde', emailed: 'E-posta Gönderilecek',
+                        pending: 'Beklemede', sent: 'E-posta Gönderildi', won: 'Kazanıldı', lost: 'Kaybedildi'
+                    };
+                    activities.push({ leadId: id, type: 'status_change', details: `Aşama değişti: ${statusMap[leadData.status] || leadData.status}` });
+                }
+                // Compare notes
+                if (leadData.notes !== undefined && leadData.notes !== existingLead.notes) {
+                    activities.push({ leadId: id, type: 'note_added', details: 'Müşteri notu güncellendi/eklendi.' });
+                }
+                // Compare emailSentDate
+                if (leadData.emailSentDate !== undefined && leadData.emailSentDate !== existingLead.emailSentDate) {
+                    activities.push({ leadId: id, type: 'email_sent', details: 'E-posta gönderim tarihi belirlendi.' });
+                }
+
+                if (activities.length > 0) {
+                    await supabase.from('lead_activities').insert(activities);
+                }
+            }
+
             setLeads(prev => prev.map(lead => lead.id === id ? { ...lead, ...(data as Lead) } : lead));
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : String(err);

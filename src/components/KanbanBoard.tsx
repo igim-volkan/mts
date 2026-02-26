@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Lead, LeadStatus } from '../types';
+import { Link } from 'react-router-dom';
 import { Calendar, GripVertical } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
@@ -82,7 +83,9 @@ export function KanbanBoard({ leads, onStatusChange }: KanbanBoardProps) {
                                     className="bg-white p-4 rounded-xl shadow-sm border border-slate-200 cursor-grab active:cursor-grabbing hover:border-blue-300 hover:shadow-md transition-all group"
                                 >
                                     <div className="flex justify-between items-start mb-2">
-                                        <div className="font-semibold text-sm text-slate-900 line-clamp-1">{lead.companyName || `${lead.firstName} ${lead.lastName}`}</div>
+                                        <Link to={`/leads/${lead.id}`} className="font-semibold text-sm text-slate-900 hover:text-blue-600 transition-colors line-clamp-1">
+                                            {lead.companyName || `${lead.firstName} ${lead.lastName}`}
+                                        </Link>
                                         <GripVertical className="w-4 h-4 text-slate-300 opacity-0 group-hover:opacity-100 transition-opacity" />
                                     </div>
                                     <div className="text-xs text-slate-500 mb-3">{lead.companyName ? `${lead.firstName} ${lead.lastName}` : lead.email}</div>

@@ -118,7 +118,7 @@ export function LeadsList() {
                                                         {lead.firstName[0]}{lead.lastName[0]}
                                                     </div>
                                                     <div>
-                                                        <div className="font-semibold text-slate-900">{lead.firstName} {lead.lastName}</div>
+                                                        <Link to={`/leads/${lead.id}`} className="font-semibold text-slate-900 hover:text-blue-600 transition-colors">{lead.firstName} {lead.lastName}</Link>
                                                         <div className="flex items-center text-xs text-slate-500 mt-0.5 gap-2">
                                                             <span className="flex items-center"><Mail className="w-3 h-3 mr-1" /> {lead.email}</span>
                                                         </div>
