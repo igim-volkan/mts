@@ -10,6 +10,7 @@ export function LeadsList() {
     const [searchTerm, setSearchTerm] = useState('');
     const [emailDateModal, setEmailDateModal] = useState<{ isOpen: boolean, leadId: string | null }>({ isOpen: false, leadId: null });
     const [selectedDate, setSelectedDate] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const filteredLeads = leads.filter(lead => {
         const searchString = `${lead.firstName} ${lead.lastName} ${lead.companyName || ''} ${lead.email}`.toLowerCase();
@@ -23,18 +24,29 @@ export function LeadsList() {
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
             setSelectedDate(now.toISOString().slice(0, 16));
         } else {
-            // Optimistically update, Supabase will be called by context
-            await updateLead(leadId, { status: newStatus as LeadStatus });
+            try {
+                // Optimistically update, Supabase will be called by context
+                await updateLead(leadId, { status: newStatus as LeadStatus });
+            } catch (err: any) {
+                alert('Durum güncellenirken bir hata oluştu: ' + (err.message || err));
+            }
         }
     };
 
     const submitEmailDate = async () => {
         if (emailDateModal.leadId && selectedDate) {
-            await updateLead(emailDateModal.leadId, {
-                status: 'sent',
-                emailSentDate: new Date(selectedDate).toISOString()
-            });
-            setEmailDateModal({ isOpen: false, leadId: null });
+            setIsSubmitting(true);
+            try {
+                await updateLead(emailDateModal.leadId, {
+                    status: 'sent',
+                    emailSentDate: new Date(selectedDate).toISOString()
+                });
+                setEmailDateModal({ isOpen: false, leadId: null });
+            } catch (err: any) {
+                alert('Tarih kaydedilirken bir hata oluştu: ' + (err.message || err));
+            } finally {
+                setIsSubmitting(false);
+            }
         }
     };
 
@@ -200,14 +212,16 @@ export function LeadsList() {
                             <button
                                 onClick={() => setEmailDateModal({ isOpen: false, leadId: null })}
                                 className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
+                                disabled={isSubmitting}
                             >
                                 İptal
                             </button>
                             <button
                                 onClick={submitEmailDate}
-                                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-sm shadow-blue-600/20"
+                                disabled={isSubmitting}
+                                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-sm shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Kaydet
+                                {isSubmitting ? 'Kaydediliyor...' : 'Kaydet'}
                             </button>
                         </div>
                     </div>
