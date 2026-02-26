@@ -4,6 +4,7 @@ import { MainLayout } from './layouts/MainLayout';
 import { Dashboard } from './pages/Dashboard';
 import { LeadsList } from './pages/LeadsList';
 import { NewLead } from './pages/NewLead';
+import { EditLead } from './pages/EditLead';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="leads" element={<LeadsList />} />
             <Route path="leads/new" element={<NewLead />} />
+            <Route path="leads/:id/edit" element={<EditLead />} />
           </Route>
         </Routes>
       </BrowserRouter>

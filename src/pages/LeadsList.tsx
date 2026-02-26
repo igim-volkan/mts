@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLeads } from '../context/LeadContext';
-import { Search, Filter, Mail, Building, Trash2, Calendar, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Search, Filter, Mail, Building, Trash2, Calendar, X, Edit2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import type { LeadStatus } from '../types';
@@ -173,7 +174,10 @@ export function LeadsList() {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button onClick={() => deleteLead(lead.id)} className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors tooltip">
+                                                <Link to={`/leads/${lead.id}/edit`} className="p-1.5 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors tooltip" title="Düzenle">
+                                                    <Edit2 className="w-4 h-4" />
+                                                </Link>
+                                                <button onClick={() => deleteLead(lead.id)} className="p-1.5 text-red-500 hover:bg-red-50 rounded-lg transition-colors tooltip" title="Sil">
                                                     <Trash2 className="w-4 h-4" />
                                                 </button>
                                             </div>
