@@ -82,6 +82,7 @@ export function LeadsList() {
                             <tr className="bg-slate-50/50 border-b border-slate-200">
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Müşteri</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Firma & Sektör</th>
+                                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Açıklama</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Durum</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">İşlemler</th>
                             </tr>
@@ -120,6 +121,15 @@ export function LeadsList() {
                                                     </span>
                                                 )}
                                             </div>
+                                        </td>
+                                        <td className="px-6 py-4 max-w-[200px]">
+                                            {lead.notes ? (
+                                                <p className="text-xs text-slate-600 line-clamp-2" title={lead.notes}>
+                                                    {lead.notes}
+                                                </p>
+                                            ) : (
+                                                <span className="text-xs text-slate-400 italic">-</span>
+                                            )}
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="relative inline-block group/select">
@@ -172,7 +182,7 @@ export function LeadsList() {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={4} className="px-6 py-12 text-center text-slate-500">
+                                    <td colSpan={5} className="px-6 py-12 text-center text-slate-500">
                                         Böyle bir müşteri bulunamadı veya henüz müşteri eklemediniz.
                                     </td>
                                 </tr>
