@@ -37,19 +37,22 @@ export function NewLead() {
         });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
 
-        // Simulate a tiny delay for the feedback
-        setTimeout(() => {
-            addLead({
+        try {
+            await addLead({
                 ...formData,
                 lastContactDate: new Date(formData.lastContactDate).toISOString(),
             });
-            setIsSubmitting(false);
             navigate('/leads');
-        }, 400);
+        } catch (error) {
+            console.error("Failed to add lead:", error);
+            // Optionally, we could set an error state here to show to the user
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
