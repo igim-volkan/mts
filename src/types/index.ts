@@ -37,6 +37,14 @@ export interface Task {
     createdAt: string;
 }
 
+export interface EmailTemplate {
+    id: string;
+    title: string;
+    subject: string;
+    content: string;
+    createdAt: string;
+}
+
 export const SECTORS = [
     'E-commerce',
     'Software',
