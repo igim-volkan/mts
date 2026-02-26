@@ -1,7 +1,6 @@
 import { useLeads } from '../context/LeadContext';
 import { Users, TrendingUp, Briefcase, PhoneCall } from 'lucide-react';
-import { format } from 'date-fns';
-import { tr } from 'date-fns/locale';
+
 
 export function Dashboard() {
     const { leads } = useLeads();
@@ -21,7 +20,8 @@ export function Dashboard() {
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5);
 
-    const recentlyContacted = [...leads]
+    const leadsToBeEmailed = leads
+        .filter(l => l.status === 'emailed')
         .sort((a, b) => new Date(b.lastContactDate).getTime() - new Date(a.lastContactDate).getTime())
         .slice(0, 5);
 
@@ -74,10 +74,10 @@ export function Dashboard() {
                 </div>
 
                 <div className="glass-card p-6">
-                    <h3 className="text-lg font-semibold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Son İletişim Kurulanlar</h3>
-                    {recentlyContacted.length > 0 ? (
+                    <h3 className="text-lg font-semibold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">E-posta Gönderilecekler</h3>
+                    {leadsToBeEmailed.length > 0 ? (
                         <div className="space-y-4">
-                            {recentlyContacted.map(lead => (
+                            {leadsToBeEmailed.map(lead => (
                                 <div key={lead.id} className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-slate-600 dark:text-slate-300 text-sm">
@@ -85,20 +85,19 @@ export function Dashboard() {
                                         </div>
                                         <div>
                                             <p className="font-semibold text-sm text-slate-900 dark:text-white">{lead.firstName} {lead.lastName}</p>
-                                            <p className="text-xs text-slate-500">{lead.companyName}</p>
+                                            <p className="text-xs text-slate-500">{lead.companyName || lead.email}</p>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{format(new Date(lead.lastContactDate), 'd MMM', { locale: tr })}</p>
-                                        <p className="text-[10px] text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded mt-0.5">
-                                            {lead.contactDirection === 'inbound' ? 'Bize ulaştı' : 'Biz ulaştık'}
-                                        </p>
+                                    <div className="text-right flex items-center">
+                                        <span className="px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 rounded-md text-[10px] font-semibold">
+                                            Bekliyor
+                                        </span>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <p className="text-slate-500 text-sm mt-4">İletişime geçilmiş kayıt yok.</p>
+                        <p className="text-slate-500 text-sm mt-4">E-posta gönderimi bekleyen kayıt yok.</p>
                     )}
                 </div>
             </div>
