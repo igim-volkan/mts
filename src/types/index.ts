@@ -1,5 +1,5 @@
 export type ContactDirection = 'inbound' | 'outbound';
-export type LeadStatus = 'new' | 'contacted' | 'won' | 'lost';
+export type LeadStatus = 'new' | 'contacted' | 'emailed' | 'won' | 'lost';
 
 export interface Lead {
     id: string;

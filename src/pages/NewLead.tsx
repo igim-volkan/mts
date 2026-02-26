@@ -184,6 +184,7 @@ export function NewLead() {
                             >
                                 <option value="new">Yeni</option>
                                 <option value="contacted">Görüşme Ayarlandı / İletişimde</option>
+                                <option value="emailed">E-posta Gönderildi</option>
                                 <option value="won">Kazanıldı (Satış / Anlaşma)</option>
                                 <option value="lost">Kaybedildi / İlgilenmiyor</option>
                             </select>

@@ -17,6 +17,7 @@ export function LeadsList() {
         switch (status) {
             case 'new': return <span className="px-2 py-1 bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 rounded-md text-xs font-semibold">Yeni</span>;
             case 'contacted': return <span className="px-2 py-1 bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 rounded-md text-xs font-semibold">İletişimde</span>;
+            case 'emailed': return <span className="px-2 py-1 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 rounded-md text-xs font-semibold">E-posta Gönderildi</span>;
             case 'won': return <span className="px-2 py-1 bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 rounded-md text-xs font-semibold">Kazanıldı</span>;
             case 'lost': return <span className="px-2 py-1 bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded-md text-xs font-semibold">Kaybedildi</span>;
             default: return null;
