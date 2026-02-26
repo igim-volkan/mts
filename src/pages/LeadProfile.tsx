@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useLeads } from '../context/LeadContext';
 import { supabase } from '../lib/supabase';
-import type { LeadActivity } from '../types';
+import type { LeadActivity, Task } from '../types';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
 import { ArrowLeft, Mail, Phone, Building, Calendar, Edit2, Activity, User, Briefcase, FileText } from 'lucide-react';
@@ -13,12 +13,16 @@ export function LeadProfile() {
     const { leads } = useLeads();
     const [activities, setActivities] = useState<LeadActivity[]>([]);
     const [isLoadingActivities, setIsLoadingActivities] = useState(true);
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [newTaskTitle, setNewTaskTitle] = useState('');
+    const [newTaskDate, setNewTaskDate] = useState('');
 
     const lead = leads.find(l => l.id === id);
 
     useEffect(() => {
         if (!id) return;
         fetchActivities();
+        fetchTasks();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
 
@@ -37,6 +41,59 @@ export function LeadProfile() {
             console.error('Aktiviteler yüklenemedi:', error);
         } finally {
             setIsLoadingActivities(false);
+        }
+    };
+
+    const fetchTasks = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('tasks')
+                .select('*')
+                .eq('leadId', id)
+                .order('dueDate', { ascending: true });
+
+            if (error) throw error;
+            setTasks(data as Task[]);
+        } catch (error) {
+            console.error('Görevler yüklenemedi:', error);
+        }
+    };
+
+    const handleAddTask = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!newTaskTitle || !newTaskDate || !id) return;
+
+        try {
+            const { data, error } = await supabase
+                .from('tasks')
+                .insert([{
+                    leadId: id,
+                    title: newTaskTitle,
+                    dueDate: new Date(newTaskDate).toISOString(),
+                }])
+                .select()
+                .single();
+
+            if (error) throw error;
+            setTasks(prev => [...prev, data as Task].sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()));
+            setNewTaskTitle('');
+            setNewTaskDate('');
+        } catch (error: any) {
+            alert('Görev eklenemedi: ' + (error.message || error));
+        }
+    };
+
+    const toggleTask = async (taskId: string, isCompleted: boolean) => {
+        try {
+            const { error } = await supabase
+                .from('tasks')
+                .update({ isCompleted })
+                .eq('id', taskId);
+
+            if (error) throw error;
+            setTasks(prev => prev.map(t => t.id === taskId ? { ...t, isCompleted } : t));
+        } catch (error: any) {
+            alert('Görev güncellenemedi: ' + (error.message || error));
         }
     };
 
@@ -148,6 +205,56 @@ export function LeadProfile() {
                                 </span>
                             ))}
                             {lead.sectors.length === 0 && <span className="text-sm text-slate-500">Sektör belirtilmemiş.</span>}
+                        </div>
+                    </div>
+
+                    <div className="glass-card bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h3 className="font-semibold text-lg border-b border-slate-100 pb-2 mb-4">Hatırlatıcılar & Görevler</h3>
+
+                        <form onSubmit={handleAddTask} className="space-y-3 mb-6">
+                            <input
+                                type="text"
+                                placeholder="Görev açıklaması..."
+                                value={newTaskTitle}
+                                onChange={e => setNewTaskTitle(e.target.value)}
+                                className="w-full text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                required
+                            />
+                            <div className="flex gap-2">
+                                <input
+                                    type="datetime-local"
+                                    value={newTaskDate}
+                                    onChange={e => setNewTaskDate(e.target.value)}
+                                    className="flex-1 text-sm px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    required
+                                />
+                                <button type="submit" className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors">
+                                    Ekle
+                                </button>
+                            </div>
+                        </form>
+
+                        <div className="space-y-3">
+                            {tasks.map(task => (
+                                <div key={task.id} className={`flex items-start gap-3 p-3 border rounded-xl transition-all ${task.isCompleted ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-slate-200 shadow-sm'}`}>
+                                    <input
+                                        type="checkbox"
+                                        checked={task.isCompleted}
+                                        onChange={(e) => toggleTask(task.id, e.target.checked)}
+                                        className="mt-1 w-4 h-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500"
+                                    />
+                                    <div>
+                                        <p className={`text-sm font-medium ${task.isCompleted ? 'line-through text-slate-500' : 'text-slate-800'}`}>{task.title}</p>
+                                        <p className="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                                            <Calendar className="w-3 h-3" />
+                                            {format(new Date(task.dueDate), 'd MMM, HH:mm', { locale: tr })}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                            {tasks.length === 0 && (
+                                <p className="text-sm text-slate-500 text-center py-4">Henüz görev eklenmemiş.</p>
+                            )}
                         </div>
                     </div>
                 </div>

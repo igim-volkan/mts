@@ -1,9 +1,49 @@
+import { useEffect, useState } from 'react';
 import { useLeads } from '../context/LeadContext';
-import { Users, TrendingUp, Briefcase, PhoneCall } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import type { Task } from '../types';
+import { format } from 'date-fns';
+import { tr } from 'date-fns/locale';
+import { Users, TrendingUp, Briefcase, PhoneCall, Calendar, CheckCircle2 } from 'lucide-react';
 
 
 export function Dashboard() {
     const { leads } = useLeads();
+    const [tasks, setTasks] = useState<Task[]>([]);
+
+    useEffect(() => {
+        fetchTasks();
+    }, []);
+
+    const fetchTasks = async () => {
+        try {
+            const { data, error } = await supabase
+                .from('tasks')
+                .select('*')
+                .eq('isCompleted', false)
+                .order('dueDate', { ascending: true })
+                .limit(6);
+
+            if (error) throw error;
+            setTasks(data as Task[]);
+        } catch (error) {
+            console.error('Görevler yüklenemedi:', error);
+        }
+    };
+
+    const toggleTask = async (taskId: string) => {
+        try {
+            const { error } = await supabase
+                .from('tasks')
+                .update({ isCompleted: true })
+                .eq('id', taskId);
+
+            if (error) throw error;
+            setTasks(prev => prev.filter(t => t.id !== taskId));
+        } catch (err: any) {
+            alert('Görev güncellenemedi: ' + (err.message || err));
+        }
+    };
 
     const totalLeads = leads.length;
     const newLeads = leads.filter(l => l.status === 'new').length;
@@ -59,6 +99,41 @@ export function Dashboard() {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            {/* Öncelikli Görevler */}
+            <div className="glass-card p-6">
+                <h3 className="text-lg font-semibold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Öncelikli Görevler & Hatırlatıcılar</h3>
+                {tasks.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {tasks.map(task => {
+                            const relatedLead = leads.find(l => l.id === task.leadId);
+                            return (
+                                <div key={task.id} className="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-start gap-3 w-full">
+                                    <button
+                                        onClick={() => toggleTask(task.id)}
+                                        className="mt-0.5 text-slate-300 hover:text-emerald-500 transition-colors tooltip"
+                                        title="Tamamlandı olarak işaretle"
+                                    >
+                                        <CheckCircle2 className="w-5 h-5" />
+                                    </button>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-semibold text-slate-900 dark:text-white truncate">{task.title}</p>
+                                        {relatedLead && (
+                                            <p className="text-xs text-slate-500 mt-1 truncate">🎯 {relatedLead.companyName || `${relatedLead.firstName} ${relatedLead.lastName}`}</p>
+                                        )}
+                                        <div className="flex items-center gap-1 mt-2 text-xs font-medium text-amber-700 bg-amber-50 dark:bg-amber-900/30 dark:text-amber-400 px-2 py-1 rounded w-max border border-amber-200/50">
+                                            <Calendar className="w-3 h-3" />
+                                            {format(new Date(task.dueDate), 'd MMM, HH:mm', { locale: tr })}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (
+                    <p className="text-slate-500 text-sm mt-2 pb-2">Bekleyen veya yaklaşan bir göreviniz bulunmuyor. Harika! 🎉</p>
+                )}
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
