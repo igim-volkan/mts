@@ -71,14 +71,26 @@ export function NewLead() {
             </div>
 
             <form onSubmit={handleSubmit} className="glass-card p-6 md:p-8 space-y-8">
-                {/* Kişisel Bilgiler */}
+                {/* Müşteri ve Firma Bilgileri */}
                 <div className="space-y-4">
-                    <h3 className="text-lg font-semibold border-b border-slate-200 dark:border-slate-700 pb-2">Kişisel Bilgiler</h3>
+                    <h3 className="text-lg font-semibold border-b border-slate-200 dark:border-slate-700 pb-2">Müşteri ve Firma Bilgileri</h3>
+
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-medium">Firma / Marka Adı</label>
+                        <input
+                            type="text"
+                            name="companyName"
+                            value={formData.companyName}
+                            onChange={handleChange}
+                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                            placeholder="Örn. ABC Teknoloji A.Ş."
+                        />
+                    </div>
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium">Ad <span className="text-red-500">*</span></label>
+                            <label className="text-sm font-medium">Ad</label>
                             <input
-                                required
                                 type="text"
                                 name="firstName"
                                 value={formData.firstName}
@@ -88,9 +100,8 @@ export function NewLead() {
                             />
                         </div>
                         <div className="space-y-1.5">
-                            <label className="text-sm font-medium">Soyad <span className="text-red-500">*</span></label>
+                            <label className="text-sm font-medium">Soyad</label>
                             <input
-                                required
                                 type="text"
                                 name="lastName"
                                 value={formData.lastName}
@@ -123,23 +134,8 @@ export function NewLead() {
                             />
                         </div>
                     </div>
-                </div>
 
-                {/* Firma ve Sektör */}
-                <div className="space-y-4">
-                    <h3 className="text-lg font-semibold border-b border-slate-200 dark:border-slate-700 pb-2">Firma Bilgileri</h3>
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Firma / Marka Adı</label>
-                        <input
-                            type="text"
-                            name="companyName"
-                            value={formData.companyName}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                            placeholder="Örn. ABC Teknoloji A.Ş."
-                        />
-                    </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 pt-2">
                         <label className="text-sm font-medium">Sektörler (Çoklu Seçim)</label>
                         <div className="flex flex-wrap gap-2">
                             {SECTORS.map((sector) => (
