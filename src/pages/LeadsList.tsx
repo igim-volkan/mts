@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useLeads } from '../context/LeadContext';
-import { format } from 'date-fns';
-import { tr } from 'date-fns/locale';
-import { Search, Filter, Mail, Building, ArrowUpRight, ArrowDownLeft, Trash2 } from 'lucide-react';
+import { Search, Filter, Mail, Building, Trash2 } from 'lucide-react';
 
 export function LeadsList() {
     const { leads, deleteLead } = useLeads();
@@ -56,7 +54,6 @@ export function LeadsList() {
                             <tr className="bg-slate-50/50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Müşteri</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Firma & Sektör</th>
-                                <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Son Temas</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Durum</th>
                                 <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">İşlemler</th>
                             </tr>
@@ -92,22 +89,6 @@ export function LeadsList() {
                                                 {lead.sectors.length > 2 && (
                                                     <span className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded text-[10px] font-medium border border-slate-200 dark:border-slate-700">
                                                         +{lead.sectors.length - 2}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4">
-                                            <div className="text-sm text-slate-900 dark:text-white">
-                                                {format(new Date(lead.lastContactDate), 'd MMM yyyy, HH:mm', { locale: tr })}
-                                            </div>
-                                            <div className="flex items-center text-xs mt-1 font-medium pb-0.5">
-                                                {lead.contactDirection === 'inbound' ? (
-                                                    <span className="text-indigo-600 dark:text-indigo-400 flex items-center bg-indigo-50 dark:bg-indigo-900/20 px-1.5 py-0.5 rounded">
-                                                        <ArrowDownLeft className="w-3 h-3 mr-1" /> Onlar ulaştı
-                                                    </span>
-                                                ) : (
-                                                    <span className="text-teal-600 dark:text-teal-400 flex items-center bg-teal-50 dark:bg-teal-900/20 px-1.5 py-0.5 rounded">
-                                                        <ArrowUpRight className="w-3 h-3 mr-1" /> Biz ulaştık
                                                     </span>
                                                 )}
                                             </div>
