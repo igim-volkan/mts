@@ -54,13 +54,13 @@ export function KanbanBoard({ leads, onStatusChange }: KanbanBoardProps) {
     };
 
     return (
-        <div className="flex gap-4 overflow-x-auto pb-4 h-[calc(100vh-220px)] items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pb-4 items-start">
             {COLUMNS.map(col => {
                 const columnLeads = leads.filter(l => l.status === col.id);
                 return (
                     <div
                         key={col.id}
-                        className="flex-shrink-0 w-72 flex flex-col h-full bg-slate-50/50 rounded-2xl border border-slate-200 overflow-hidden"
+                        className="flex flex-col bg-slate-50/50 rounded-2xl border border-slate-200 overflow-hidden"
                         onDragOver={handleDragOver}
                         onDrop={(e) => handleDrop(e, col.id)}
                     >
@@ -73,7 +73,7 @@ export function KanbanBoard({ leads, onStatusChange }: KanbanBoardProps) {
                         </div>
 
                         {/* Column Content */}
-                        <div className="flex-1 p-3 overflow-y-auto space-y-3">
+                        <div className="flex-1 p-3 space-y-3">
                             {columnLeads.map(lead => (
                                 <div
                                     key={lead.id}

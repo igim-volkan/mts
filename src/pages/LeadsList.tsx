@@ -150,7 +150,11 @@ export function LeadsList() {
                                             <td className="px-6 py-4">
                                                 <div className="text-sm font-medium text-slate-900 flex items-center gap-1.5">
                                                     <Building className="w-3.5 h-3.5 text-slate-400" />
-                                                    {lead.companyName || '-'}
+                                                    {lead.companyName ? (
+                                                        <Link to={`/leads/${lead.id}`} className="hover:text-blue-600 transition-colors">
+                                                            {lead.companyName}
+                                                        </Link>
+                                                    ) : '-'}
                                                 </div>
                                                 <div className="flex flex-wrap gap-1 mt-1.5">
                                                     {lead.sectors.slice(0, 2).map(sector => (
