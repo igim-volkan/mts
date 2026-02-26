@@ -84,8 +84,8 @@ export function Dashboard() {
                                             {lead.firstName[0]}{lead.lastName[0]}
                                         </div>
                                         <div>
-                                            <p className="font-semibold text-sm text-slate-900 dark:text-white">{lead.firstName} {lead.lastName}</p>
-                                            <p className="text-xs text-slate-500">{lead.companyName || lead.email}</p>
+                                            <p className="font-bold text-base text-slate-900">{lead.companyName || `${lead.firstName} ${lead.lastName}`}</p>
+                                            <p className="text-sm text-slate-500">{lead.companyName ? `${lead.firstName} ${lead.lastName}` : lead.email}</p>
                                         </div>
                                     </div>
                                     <div className="text-right flex items-center">
