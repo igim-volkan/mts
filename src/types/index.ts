@@ -1,5 +1,5 @@
 export type ContactDirection = 'inbound' | 'outbound';
-export type LeadStatus = 'new' | 'contacted' | 'emailed' | 'won' | 'lost';
+export type LeadStatus = 'new' | 'contacted' | 'emailed' | 'pending' | 'sent' | 'won' | 'lost';
 
 export interface Lead {
     id: string;
@@ -13,6 +13,7 @@ export interface Lead {
     contactDirection: ContactDirection;
     notes?: string;
     status: LeadStatus;
+    emailSentDate?: string; // ISO Date String
     createdAt: string; // ISO Date String
 }
 
