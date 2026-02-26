@@ -10,6 +10,8 @@
   --font-display: 'Outfit', system-ui, sans-serif;
 }
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     --background: 210 40% 98%;
