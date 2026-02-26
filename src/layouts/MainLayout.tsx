@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Users, LayoutDashboard, PlusCircle } from 'lucide-react';
+import { Users, LayoutDashboard, PlusCircle, FileText } from 'lucide-react';
 
 export function MainLayout() {
     const location = useLocation();
@@ -8,6 +8,7 @@ export function MainLayout() {
         { name: 'Dashboard', path: '/', icon: LayoutDashboard },
         { name: 'Müşteriler', path: '/leads', icon: Users },
         { name: 'Yeni Ekle', path: '/leads/new', icon: PlusCircle },
+        { name: 'E-posta Metinleri', path: '/templates', icon: FileText },
     ];
 
     return (

@@ -5,6 +5,7 @@ import { Dashboard } from './pages/Dashboard';
 import { LeadsList } from './pages/LeadsList';
 import { NewLead } from './pages/NewLead';
 import { EditLead } from './pages/EditLead';
+import { EmailTemplates } from './pages/EmailTemplates';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path="leads" element={<LeadsList />} />
             <Route path="leads/new" element={<NewLead />} />
             <Route path="leads/:id/edit" element={<EditLead />} />
+            <Route path="templates" element={<EmailTemplates />} />
           </Route>
         </Routes>
       </BrowserRouter>
