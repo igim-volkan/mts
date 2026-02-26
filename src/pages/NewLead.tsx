@@ -159,17 +159,7 @@ export function NewLead() {
                 <div className="space-y-4">
                     <h3 className="text-lg font-semibold border-b border-slate-200 dark:border-slate-700 pb-2">İletişim Detayları</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
-                            <label className="text-sm font-medium">Son Temas Zamanı</label>
-                            <input
-                                type="datetime-local"
-                                name="lastContactDate"
-                                value={formData.lastContactDate}
-                                onChange={handleChange}
-                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                            />
-                        </div>
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 flex flex-col justify-end">
                             <label className="text-sm font-medium">İletişim Yönü</label>
                             <select
                                 name="contactDirection"
