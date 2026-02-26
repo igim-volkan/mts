@@ -70,47 +70,48 @@ export function NewLead() {
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="glass-card p-6 md:p-8 space-y-8">
-                {/* Müşteri ve Firma Bilgileri */}
-                <div className="space-y-4">
-                    <h3 className="text-lg font-semibold border-b border-slate-200 dark:border-slate-700 pb-2">Müşteri ve Firma Bilgileri</h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
 
-                    <div className="space-y-1.5">
+                {/* Müşteri ve Firma Bilgileri */}
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700 space-y-6">
+                    <div className="border-b border-slate-100 dark:border-slate-700/50 pb-4">
+                        <h3 className="text-xl font-semibold text-slate-800 dark:text-white">Müşteri ve Firma Bilgileri</h3>
+                        <p className="text-sm text-slate-500 mt-1">Sisteme eklenecek hedefin temel tanımlayıcı bilgileri.</p>
+                    </div>
+
+                    <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors">
                         <label className="text-sm font-medium">Firma / Marka Adı</label>
                         <input
                             type="text"
                             name="companyName"
                             value={formData.companyName}
                             onChange={handleChange}
-                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                            placeholder="Örn. ABC Teknoloji A.Ş."
+                            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-900 dark:text-white"
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors">
                             <label className="text-sm font-medium">Ad</label>
                             <input
                                 type="text"
                                 name="firstName"
                                 value={formData.firstName}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="Örn. Ali"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-900 dark:text-white"
                             />
                         </div>
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors">
                             <label className="text-sm font-medium">Soyad</label>
                             <input
                                 type="text"
                                 name="lastName"
                                 value={formData.lastName}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="Örn. Yılmaz"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-900 dark:text-white"
                             />
                         </div>
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors">
                             <label className="text-sm font-medium">E-posta <span className="text-red-500">*</span></label>
                             <input
                                 required
@@ -118,34 +119,32 @@ export function NewLead() {
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="ali@ornek.com"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-900 dark:text-white"
                             />
                         </div>
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors">
                             <label className="text-sm font-medium">Telefon Numarası</label>
                             <input
                                 type="tel"
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                placeholder="+90 5XX XXX XX XX"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-900 dark:text-white"
                             />
                         </div>
                     </div>
 
-                    <div className="space-y-2 pt-2">
-                        <label className="text-sm font-medium">Sektörler (Çoklu Seçim)</label>
+                    <div className="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-700/50">
+                        <label className="text-sm font-medium text-slate-800 dark:text-slate-200">Sektörler (Çoklu Seçim)</label>
                         <div className="flex flex-wrap gap-2">
                             {SECTORS.map((sector) => (
                                 <button
                                     key={sector}
                                     type="button"
                                     onClick={() => handleSectorChange(sector)}
-                                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${formData.sectors.includes(sector)
-                                        ? 'bg-blue-100 border-blue-200 text-blue-700 dark:bg-blue-900/40 dark:border-blue-800 dark:text-blue-300'
-                                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-700'
+                                    className={`px-4 py-2 rounded-xl text-sm font-medium border transition-all ${formData.sectors.includes(sector)
+                                        ? 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/40 dark:border-blue-800 dark:text-blue-300 shadow-sm'
+                                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 hover:border-slate-300 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-400 dark:hover:bg-slate-700'
                                         }`}
                                 >
                                     {sector}
@@ -156,50 +155,54 @@ export function NewLead() {
                 </div>
 
                 {/* İletişim Detayları */}
-                <div className="space-y-4">
-                    <h3 className="text-lg font-semibold border-b border-slate-200 dark:border-slate-700 pb-2">İletişim Detayları</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="space-y-1.5 flex flex-col justify-end">
+                <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 md:p-8 shadow-sm border border-slate-200 dark:border-slate-700 space-y-6">
+                    <div className="border-b border-slate-100 dark:border-slate-700/50 pb-4">
+                        <h3 className="text-xl font-semibold text-slate-800 dark:text-white">Durum & Notlar</h3>
+                        <p className="text-sm text-slate-500 mt-1">Müşterinin sistemdeki aşaması ve görüşme özetleri.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors flex flex-col justify-end">
                             <label className="text-sm font-medium">İletişim Yönü</label>
                             <select
                                 name="contactDirection"
                                 value={formData.contactDirection}
                                 onChange={handleChange}
-                                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-900 dark:text-white appearance-none"
                             >
                                 <option value="inbound">Onlar Bize Ulaştı</option>
                                 <option value="outbound">Biz Onlara Ulaştık</option>
                             </select>
                         </div>
+                        <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors">
+                            <label className="text-sm font-medium">Durum (Status)</label>
+                            <select
+                                name="status"
+                                value={formData.status}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all text-slate-900 dark:text-white appearance-none"
+                            >
+                                <option value="new">Yeni</option>
+                                <option value="contacted">Görüşme Ayarlandı / İletişimde</option>
+                                <option value="won">Kazanıldı (Satış / Anlaşma)</option>
+                                <option value="lost">Kaybedildi / İlgilenmiyor</option>
+                            </select>
+                        </div>
                     </div>
-                    <div className="space-y-1.5">
-                        <label className="text-sm font-medium">Durum (Status)</label>
-                        <select
-                            name="status"
-                            value={formData.status}
-                            onChange={handleChange}
-                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                        >
-                            <option value="new">Yeni</option>
-                            <option value="contacted">Görüşme Ayarlandı / İletişimde</option>
-                            <option value="won">Kazanıldı (Satış / Anlaşma)</option>
-                            <option value="lost">Kaybedildi / İlgilenmiyor</option>
-                        </select>
-                    </div>
-                    <div className="space-y-1.5">
+
+                    <div className="space-y-1.5 focus-within:text-blue-600 dark:focus-within:text-blue-400 transition-colors">
                         <label className="text-sm font-medium">Ek Bilgiler (Notlar)</label>
                         <textarea
                             name="notes"
                             value={formData.notes}
                             onChange={handleChange}
-                            rows={4}
-                            className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
-                            placeholder="Örn: Web siteleri oldukça eski, yenilenmesi gerekiyor. Pazartesi günü tekrar aranacak..."
+                            rows={5}
+                            className="w-full px-4 py-3 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all resize-none text-slate-900 dark:text-white"
                         />
                     </div>
                 </div>
 
-                <div className="pt-4 flex justify-end">
+                <div className="pt-2 flex justify-end">
                     <button
                         type="submit"
                         disabled={isSubmitting}
