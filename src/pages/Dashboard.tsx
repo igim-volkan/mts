@@ -25,6 +25,16 @@ export function Dashboard() {
         .sort((a, b) => new Date(b.lastContactDate).getTime() - new Date(a.lastContactDate).getTime())
         .slice(0, 5);
 
+    const lostLeads = leads.filter(l => l.status === 'lost');
+    const lossReasonsCount = lostLeads.reduce((acc, lead) => {
+        const reason = lead.lossReason || 'Belirtilmedi';
+        acc[reason] = (acc[reason] || 0) + 1;
+        return acc;
+    }, {} as Record<string, number>);
+
+    const sortedLossReasons = Object.entries(lossReasonsCount)
+        .sort((a, b) => b[1] - a[1]);
+
     return (
         <div className="space-y-6">
             <div>
@@ -98,6 +108,28 @@ export function Dashboard() {
                         </div>
                     ) : (
                         <p className="text-slate-500 text-sm mt-4">E-posta gönderimi bekleyen kayıt yok.</p>
+                    )}
+                </div>
+
+                {/* Kayıp Nedenleri Analizi */}
+                <div className="glass-card p-6 lg:col-span-2">
+                    <h3 className="text-lg font-semibold mb-4 border-b border-slate-200 dark:border-slate-700 pb-2">Kayıp Nedenleri Analizi</h3>
+                    {sortedLossReasons.length > 0 ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            {sortedLossReasons.map(([reason, count]) => (
+                                <div key={reason}>
+                                    <div className="flex justify-between text-sm mb-1 text-slate-600 dark:text-slate-300">
+                                        <span className="font-medium">{reason}</span>
+                                        <span className="font-semibold text-slate-900">{count} <span className="text-slate-400 font-normal">/ {lostLeads.length}</span></span>
+                                    </div>
+                                    <div className="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+                                        <div className="bg-red-500 h-2 rounded-full transition-all duration-1000" style={{ width: `${(count / lostLeads.length) * 100}%` }}></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-slate-500 text-sm mt-4">Henüz kaybedilen müşteri kaydı veya neden analizi bulunmuyor.</p>
                     )}
                 </div>
             </div>
