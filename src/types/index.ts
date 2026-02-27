@@ -57,3 +57,18 @@ export const SECTORS = [
     'Automotive',
     'Other' // Diğer 
 ];
+
+export interface Contract {
+    id: string;
+    customerName: string;
+    customerLogo?: string;
+    hasFrontend: boolean;
+    hasBackend: boolean;
+    hasSocialMedia: boolean;
+    hasPrintMedia: boolean;
+    contractDate: string;
+    monthlyPayment: number;
+    assignees: string[]; // ['Çiğdem', 'Volkan', 'Elif']
+    createdAt: string;
+}
+

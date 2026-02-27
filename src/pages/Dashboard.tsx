@@ -4,16 +4,31 @@ import { supabase } from '../lib/supabase';
 import type { Task } from '../types';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
-import { Users, TrendingUp, Briefcase, PhoneCall, Calendar, CheckCircle2 } from 'lucide-react';
+import { Users, TrendingUp, Briefcase, PhoneCall, Calendar, CheckCircle2, FileSignature } from 'lucide-react';
 
 
 export function Dashboard() {
     const { leads } = useLeads();
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [contractsCount, setContractsCount] = useState<number>(0);
 
     useEffect(() => {
         fetchTasks();
+        fetchContractsCount();
     }, []);
+
+    const fetchContractsCount = async () => {
+        try {
+            const { count, error } = await supabase
+                .from('contracts')
+                .select('*', { count: 'exact', head: true });
+
+            if (error) throw error;
+            setContractsCount(count || 0);
+        } catch (error) {
+            console.error('Sözleşme sayısı alınamadı:', error);
+        }
+    };
 
     const fetchTasks = async () => {
         try {
@@ -82,11 +97,12 @@ export function Dashboard() {
                 <p className="text-slate-500 mt-1">Müşteri ve potansiyel müşteri istatistiklerinizi buradan takip edebilirsiniz.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 {[
                     { title: "Toplam Müşteri", value: totalLeads, icon: Users, color: "text-blue-500", bg: "bg-blue-100 dark:bg-blue-500/20" },
                     { title: "Yeni Müşteri", value: newLeads, icon: TrendingUp, color: "text-purple-500", bg: "bg-purple-100 dark:bg-purple-500/20" },
-                    { title: "Kazanılan (Satış/Anlaşma)", value: wonLeads, icon: Briefcase, color: "text-emerald-500", bg: "bg-emerald-100 dark:bg-emerald-500/20" },
+                    { title: "Kazanılan", value: wonLeads, icon: Briefcase, color: "text-emerald-500", bg: "bg-emerald-100 dark:bg-emerald-500/20" },
+                    { title: "Sözleşmeler", value: contractsCount, icon: FileSignature, color: "text-indigo-500", bg: "bg-indigo-100 dark:bg-indigo-500/20" },
                     { title: "Toplam Sektör", value: Object.keys(sectorsCount).length, icon: PhoneCall, color: "text-amber-500", bg: "bg-amber-100 dark:bg-amber-500/20" },
                 ].map((stat, i) => (
                     <div key={i} className="glass-card p-6 flex items-center justify-between">

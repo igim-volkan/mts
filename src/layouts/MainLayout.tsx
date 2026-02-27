@@ -1,13 +1,22 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Users, LayoutDashboard, PlusCircle, FileText } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Users, LayoutDashboard, PlusCircle, FileText, FileSignature, LogOut } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export function MainLayout() {
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user, signOut } = useAuth();
+
+    const handleLogout = async () => {
+        await signOut();
+        navigate('/login');
+    };
 
     const navItems = [
         { name: 'Dashboard', path: '/', icon: LayoutDashboard },
         { name: 'Müşteriler', path: '/leads', icon: Users },
-        { name: 'Yeni Ekle', path: '/leads/new', icon: PlusCircle },
+        { name: 'Yeni Müşteri Ekle', path: '/leads/new', icon: PlusCircle },
+        { name: 'Sözleşmeler', path: '/contracts', icon: FileSignature },
         { name: 'E-posta Metinleri', path: '/templates', icon: FileText },
     ];
 
@@ -43,6 +52,21 @@ export function MainLayout() {
                         );
                     })}
                 </nav>
+
+                <div className="mt-auto border-t border-slate-200 dark:border-slate-800 pt-6">
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-3 px-4 py-3 w-full rounded-xl transition-all duration-200 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400"
+                    >
+                        <LogOut className="w-5 h-5 opacity-70" />
+                        Çıkış Yap
+                    </button>
+                    {user?.email && (
+                        <div className="px-4 mt-2 text-xs text-slate-400 dark:text-slate-500 truncate">
+                            {user.email}
+                        </div>
+                    )}
+                </div>
             </aside>
 
             {/* Main Content */}
