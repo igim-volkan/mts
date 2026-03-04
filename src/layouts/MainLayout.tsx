@@ -16,7 +16,6 @@ export function MainLayout() {
         { name: 'Dashboard', path: '/', icon: LayoutDashboard },
         { name: 'Müşteriler', path: '/leads', icon: Users },
         { name: 'Üyelik ve Abonelikler', path: '/subscriptions', icon: CreditCard },
-        { name: 'Sözleşmeler', path: '/contracts', icon: FileSignature },
         { name: 'E-posta Metinleri', path: '/templates', icon: FileText },
     ];
 
@@ -37,6 +36,7 @@ export function MainLayout() {
                 <nav className="flex-1 flex flex-col gap-2">
                     {navItems.map((item) => {
                         const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
+
                         return (
                             <Link
                                 key={item.name}
@@ -51,6 +51,22 @@ export function MainLayout() {
                             </Link>
                         );
                     })}
+
+                    <div className="my-2 border-t border-slate-200 dark:border-slate-800"></div>
+
+                    <Link
+                        to="/contracts"
+                        className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-bold text-sm ${location.pathname.startsWith('/contracts')
+                                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-orange-500/30'
+                                : 'bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-500/10 dark:to-orange-500/10 text-amber-700 dark:text-amber-500 border border-amber-200/50 dark:border-amber-500/20 hover:shadow-md hover:scale-[1.02]'
+                            }`}
+                    >
+                        <div className="flex items-center gap-3">
+                            <FileSignature className={`w-5 h-5 ${location.pathname.startsWith('/contracts') ? 'text-white' : 'text-amber-600 dark:text-amber-500'}`} />
+                            Sözleşmeler
+                        </div>
+                        <div className={`w-2 h-2 rounded-full ${location.pathname.startsWith('/contracts') ? 'bg-white' : 'bg-amber-500 animate-pulse'}`}></div>
+                    </Link>
                 </nav>
 
                 <div className="mt-auto pt-6 flex flex-col gap-2">
