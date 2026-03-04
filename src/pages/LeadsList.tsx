@@ -123,8 +123,8 @@ export function LeadsList() {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-slate-50/50 border-b border-slate-200">
-                                    <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Müşteri</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Firma & Sektör</th>
+                                    <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Müşteri</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Açıklama</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider">Durum</th>
                                     <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider text-right">İşlemler</th>
@@ -135,20 +135,7 @@ export function LeadsList() {
                                     filteredLeads.map((lead) => (
                                         <tr key={lead.id} className="hover:bg-slate-50/50 transition-colors group">
                                             <td className="px-6 py-4">
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
-                                                        {lead.firstName[0]}{lead.lastName[0]}
-                                                    </div>
-                                                    <div>
-                                                        <Link to={`/leads/${lead.id}`} className="font-semibold text-slate-900 hover:text-blue-600 transition-colors">{lead.firstName} {lead.lastName}</Link>
-                                                        <div className="flex items-center text-xs text-slate-500 mt-0.5 gap-2">
-                                                            <span className="flex items-center"><Mail className="w-3 h-3 mr-1" /> {lead.email}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4">
-                                                <div className="text-sm font-medium text-slate-900 flex items-center gap-1.5">
+                                                <div className="font-semibold text-slate-900 flex items-center gap-1.5">
                                                     <Building className="w-3.5 h-3.5 text-slate-400" />
                                                     {lead.companyName ? (
                                                         <Link to={`/leads/${lead.id}`} className="hover:text-blue-600 transition-colors">
@@ -167,6 +154,19 @@ export function LeadsList() {
                                                             +{lead.sectors.length - 2}
                                                         </span>
                                                     )}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
+                                                        {lead.firstName[0]}{lead.lastName[0]}
+                                                    </div>
+                                                    <div>
+                                                        <Link to={`/leads/${lead.id}`} className="text-sm font-medium text-slate-900 hover:text-blue-600 transition-colors">{lead.firstName} {lead.lastName}</Link>
+                                                        <div className="flex items-center text-xs text-slate-500 mt-0.5 gap-2">
+                                                            <span className="flex items-center"><Mail className="w-3 h-3 mr-1" /> {lead.email}</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 max-w-[200px]">

@@ -72,3 +72,19 @@ export interface Contract {
     createdAt: string;
 }
 
+export type BillingCycle = 'monthly' | 'yearly';
+export type SubscriptionStatus = 'active' | 'cancelled';
+
+export interface Subscription {
+    id: string;
+    name: string;
+    amount: number;
+    currency: string;
+    billing_cycle: BillingCycle;
+    start_date: string;
+    status: SubscriptionStatus;
+    category?: string;
+    created_at: string;
+}
+
+export type SubscriptionInsert = Omit<Subscription, 'id' | 'created_at'>;

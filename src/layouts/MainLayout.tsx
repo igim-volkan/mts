@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Users, LayoutDashboard, PlusCircle, FileText, FileSignature, LogOut } from 'lucide-react';
+import { Users, LayoutDashboard, PlusCircle, FileText, FileSignature, LogOut, CreditCard } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export function MainLayout() {
@@ -15,7 +15,7 @@ export function MainLayout() {
     const navItems = [
         { name: 'Dashboard', path: '/', icon: LayoutDashboard },
         { name: 'Müşteriler', path: '/leads', icon: Users },
-        { name: 'Yeni Müşteri Ekle', path: '/leads/new', icon: PlusCircle },
+        { name: 'Üyelik ve Abonelikler', path: '/subscriptions', icon: CreditCard },
         { name: 'Sözleşmeler', path: '/contracts', icon: FileSignature },
         { name: 'E-posta Metinleri', path: '/templates', icon: FileText },
     ];
@@ -53,7 +53,18 @@ export function MainLayout() {
                     })}
                 </nav>
 
-                <div className="mt-auto border-t border-slate-200 dark:border-slate-800 pt-6">
+                <div className="mt-auto pt-6 flex flex-col gap-2">
+                    <Link
+                        to="/leads/new"
+                        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium ${location.pathname === '/leads/new'
+                            ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-500/20'
+                            : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                            }`}
+                    >
+                        <PlusCircle className={`w-5 h-5 ${location.pathname === '/leads/new' ? 'text-blue-100' : 'text-blue-600 dark:text-blue-400'}`} />
+                        Yeni Müşteri Ekle
+                    </Link>
+
                     <button
                         onClick={handleLogout}
                         className="flex items-center gap-3 px-4 py-3 w-full rounded-xl transition-all duration-200 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-400"
